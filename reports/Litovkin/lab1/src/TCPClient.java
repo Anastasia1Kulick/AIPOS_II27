@@ -4,61 +4,58 @@ import java.nio.charset.StandardCharsets;
 
 public class TCPClient {
 
-    private static final String HOST = "127.0.0.1";
+    private static final String HOST = "localhost";
     private static final int PORT = 9000;
-
     private static final int BLOCK_SIZE = 10;
 
     public static void main(String[] args) {
 
-        System.out.println("TCP CLIENT");
-
         try (
-                Socket socket = new Socket(HOST, PORT);
+            Socket socket = new Socket(HOST, PORT);
 
-                BufferedReader console =
-                        new BufferedReader(
-                                new InputStreamReader(System.in)
-                        );
+            BufferedReader serverInput =
+                new BufferedReader(
+                    new InputStreamReader(
+                        socket.getInputStream(),
+                        StandardCharsets.US_ASCII
+                    )
+                );
 
-                BufferedReader serverInput =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        socket.getInputStream(),
-                                        StandardCharsets.US_ASCII
-                                )
-                        );
+            PrintWriter output =
+                new PrintWriter(
+                    new OutputStreamWriter(
+                        socket.getOutputStream(),
+                        StandardCharsets.US_ASCII
+                    ),
+                    true
+                );
 
-                PrintWriter serverOutput =
-                        new PrintWriter(
-                                new OutputStreamWriter(
-                                        socket.getOutputStream(),
-                                        StandardCharsets.US_ASCII
-                                ),
-                                true
-                        )
+            BufferedReader consoleInput =
+                new BufferedReader(
+                    new InputStreamReader(System.in)
+                )
         ) {
 
             System.out.println("Соединение установлено.");
             System.out.println(
-                    "Сервер: " + HOST + ":" + PORT
+                "Сервер: " + HOST + ":" + PORT
             );
 
             System.out.println(
-                    "Введите ASCII-текст."
+                "Введите ASCII-символы."
             );
 
             System.out.println(
-                    "Для выхода введите: exit\n"
+                "Для завершения программы введите: exit"
             );
 
             int sentCharacters = 0;
 
             while (true) {
 
-                System.out.print("> ");
+                System.out.print("\nВведите сообщение: ");
 
-                String message = console.readLine();
+                String message = consoleInput.readLine();
 
                 if (message == null) {
                     break;
@@ -68,50 +65,72 @@ public class TCPClient {
                     break;
                 }
 
-                if (!StandardCharsets.US_ASCII
-                        .newEncoder()
-                        .canEncode(message)) {
+                if (message.isEmpty()) {
+                    continue;
+                }
+
+        
+                if (message.chars()
+                        .anyMatch(c -> c < 32 || c > 126)) {
 
                     System.out.println(
-                            "Используйте только ASCII-символы."
+                        "Используйте только печатные ASCII-символы."
                     );
 
                     continue;
                 }
 
-                serverOutput.println(message);
+                output.print(message);
+                output.flush();
 
                 sentCharacters += message.length();
 
                 while (sentCharacters >= BLOCK_SIZE) {
 
                     String response =
-                            serverInput.readLine();
+                        serverInput.readLine();
+
+                    if (response == null) {
+
+                        System.out.println(
+                            "Сервер закрыл соединение."
+                        );
+
+                        return;
+                    }
 
                     System.out.println(
-                            "Server: " + response
+                        "Server: " + response
                     );
 
                     sentCharacters -= BLOCK_SIZE;
                 }
             }
 
-            System.out.println("Соединение закрыто.");
+            System.out.println("Клиент завершил работу.");
+
+        } catch (UnknownHostException e) {
+
+            System.out.println(
+                "Не удалось найти сервер: "
+                + e.getMessage()
+            );
 
         } catch (ConnectException e) {
 
             System.out.println(
-                    "Не удалось подключиться к серверу."
+                "Не удалось подключиться к серверу."
             );
 
             System.out.println(
-                    "Убедитесь, что сервер запущен."
+                "Проверьте, запущен ли TCPServer."
             );
 
         } catch (IOException e) {
 
             System.out.println(
-                    "Ошибка: " + e.getMessage()
+                "Ошибка клиента: "
+                + e.getMessage()
             );
         }
     }

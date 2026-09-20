@@ -22,26 +22,23 @@ public class TCPServer {
 
                 try (
                     Socket clientSocket = serverSocket.accept();
-                    InputStream input = clientSocket.getInputStream();
-                    PrintWriter output = new PrintWriter(
-                        new OutputStreamWriter(
-                            clientSocket.getOutputStream(),
-                            StandardCharsets.US_ASCII
-                        ),
-                        true
-                    )
+
+                    InputStream input =
+                        clientSocket.getInputStream();
+
+                    PrintWriter output =
+                        new PrintWriter(
+                            new OutputStreamWriter(
+                                clientSocket.getOutputStream(),
+                                StandardCharsets.US_ASCII
+                            ),
+                            true
+                        )
                 ) {
 
                     System.out.println(
-                        "Клиент подключен: " + clientSocket.getInetAddress()
-                    );
-
-                    output.println("TCP сервер готов");
-
-                    output.println(
-                        " ASCII  "
-                        + "Checksum will be calculated "
-                        + "for every 10 characters."
+                        "Клиент подключен: "
+                        + clientSocket.getInetAddress()
                     );
 
                     int count = 0;
@@ -53,10 +50,7 @@ public class TCPServer {
 
                     while ((data = input.read()) != -1) {
 
-                        if (data == '\r' || data == '\n') {
-                            continue;
-                        }
-
+                
                         if (data < 32 || data > 126) {
                             continue;
                         }
@@ -73,6 +67,7 @@ public class TCPServer {
                             + " | count: " + count
                         );
 
+                
                         if (count == BLOCK_SIZE) {
 
                             System.out.println(
@@ -83,14 +78,12 @@ public class TCPServer {
                                 "Контрольная сумма: " + checksum
                             );
 
-                            output.println(
-                                "Sequence: " + sequence
-                            );
-
+    
                             output.println(
                                 "Checksum = " + checksum
                             );
 
+                
                             count = 0;
                             checksum = 0;
                             sequence.setLength(0);
