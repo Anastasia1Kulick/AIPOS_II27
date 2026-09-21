@@ -23,8 +23,7 @@ public class TCPServer {
                 try (
                     Socket clientSocket = serverSocket.accept();
 
-                    InputStream input =
-                        clientSocket.getInputStream();
+                    InputStream input = clientSocket.getInputStream();
 
                     PrintWriter output =
                         new PrintWriter(
@@ -36,10 +35,7 @@ public class TCPServer {
                         )
                 ) {
 
-                    System.out.println(
-                        "Клиент подключен: "
-                        + clientSocket.getInetAddress()
-                    );
+                    System.out.println("Клиент подключен: "+ clientSocket.getInetAddress());
 
                     int count = 0;
                     int checksum = 0;
@@ -61,27 +57,17 @@ public class TCPServer {
                         checksum += data;
                         count++;
 
-                        System.out.println(
-                            "Получен символ: " + symbol
-                            + " | ASCII: " + data
-                            + " | count: " + count
-                        );
+                        System.out.println("Получен символ: " + symbol + " | ASCII: " + data + " | count: " + count);
 
                 
                         if (count == BLOCK_SIZE) {
 
-                            System.out.println(
-                                "Последовательность: " + sequence
-                            );
+                            System.out.println("Последовательность: " + sequence);
 
-                            System.out.println(
-                                "Контрольная сумма: " + checksum
-                            );
+                            System.out.println("Контрольная сумма: " + checksum);
 
     
-                            output.println(
-                                "Checksum = " + checksum
-                            );
+                            output.println("Checksum = " + checksum);
 
                 
                             count = 0;
@@ -94,18 +80,13 @@ public class TCPServer {
 
                 } catch (IOException e) {
 
-                    System.out.println(
-                        "Ошибка при работе с клиентом: "
-                        + e.getMessage()
-                    );
+                    System.out.println("Ошибка при работе с клиентом: "+ e.getMessage());
                 }
             }
 
         } catch (IOException e) {
 
-            System.out.println(
-                "Ошибка запуска сервера: "
-                + e.getMessage()
+            System.out.println("Ошибка запуска сервера: "+ e.getMessage()
             );
         }
     }

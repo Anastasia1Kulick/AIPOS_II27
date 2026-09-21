@@ -37,17 +37,11 @@ public class TCPClient {
         ) {
 
             System.out.println("Соединение установлено.");
-            System.out.println(
-                "Сервер: " + HOST + ":" + PORT
-            );
+            System.out.println("Сервер: " + HOST + ":" + PORT);
 
-            System.out.println(
-                "Введите ASCII-символы."
-            );
+            System.out.println("Введите ASCII-символы.");
 
-            System.out.println(
-                "Для завершения программы введите: exit"
-            );
+            System.out.println("Для завершения программы введите: exit");
 
             int sentCharacters = 0;
 
@@ -70,12 +64,9 @@ public class TCPClient {
                 }
 
         
-                if (message.chars()
-                        .anyMatch(c -> c < 32 || c > 126)) {
+                if (message.chars().anyMatch(c -> c < 32 || c > 126)) {
 
-                    System.out.println(
-                        "Используйте только печатные ASCII-символы."
-                    );
+                    System.out.println("Используйте только печатные ASCII-символы.");
 
                     continue;
                 }
@@ -87,21 +78,16 @@ public class TCPClient {
 
                 while (sentCharacters >= BLOCK_SIZE) {
 
-                    String response =
-                        serverInput.readLine();
+                    String response = serverInput.readLine();
 
                     if (response == null) {
 
-                        System.out.println(
-                            "Сервер закрыл соединение."
-                        );
+                        System.out.println("Сервер закрыл соединение.");
 
                         return;
                     }
 
-                    System.out.println(
-                        "Server: " + response
-                    );
+                    System.out.println("Server: " + response);
 
                     sentCharacters -= BLOCK_SIZE;
                 }
@@ -111,26 +97,17 @@ public class TCPClient {
 
         } catch (UnknownHostException e) {
 
-            System.out.println(
-                "Не удалось найти сервер: "
-                + e.getMessage()
-            );
+            System.out.println("Не удалось найти сервер: "+ e.getMessage());
 
         } catch (ConnectException e) {
 
-            System.out.println(
-                "Не удалось подключиться к серверу."
-            );
+            System.out.println( "Не удалось подключиться к серверу.");
 
-            System.out.println(
-                "Проверьте, запущен ли TCPServer."
-            );
+            System.out.println("Проверьте, запущен ли TCPServer.");
 
         } catch (IOException e) {
 
-            System.out.println(
-                "Ошибка клиента: "
-                + e.getMessage()
+            System.out.println("Ошибка клиента: "+ e.getMessage()
             );
         }
     }
