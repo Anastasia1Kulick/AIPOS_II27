@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
-
 public class TCPclient {
     private static final String LOG_FILE = "client.log";
     private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
