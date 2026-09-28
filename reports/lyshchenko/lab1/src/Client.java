@@ -1,5 +1,3 @@
-// Лабораторная работа №2. Организация TCP-клиента
-// Вариант 8: ввод по End (Enter), лог 1,2,3, команда connect, БЕЗ автоподключения
 import java.io.*;
 import java.net.*;
 import java.util.Date;
@@ -16,7 +14,7 @@ public class Client {
     public static void main(String[] args) throws IOException {
         // Инициализация файла протокола событий
         logWriter = new PrintWriter(new FileWriter(LOG_FILE, true), true);
-        log("=== Запуск клиента ===");
+        log("Запуск клиента");
 
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
@@ -95,7 +93,7 @@ public class Client {
                 log("[" + new Date() + "] Соединение разорвано (завершение работы)");
                 socket.close();
             }
-            log("=== Клиент завершил работу ===");
+            log("Клиент завершил работу");
             logWriter.close();
             System.out.println("Соединение закрыто. Лог сохранен в " + LOG_FILE);
         }

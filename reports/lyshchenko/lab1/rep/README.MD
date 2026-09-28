@@ -54,4 +54,3 @@ lyshchenko/lab1/
     ├── Client.java
     └── Server.java
 ```
-```
