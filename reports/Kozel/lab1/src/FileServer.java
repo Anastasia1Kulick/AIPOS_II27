@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class FileServer {
+public class FileServer { 
     public static void main(String[] args) {
         int port = 8080;
         try (ServerSocket serverSocket = new ServerSocket(port)) {

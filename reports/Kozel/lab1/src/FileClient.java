@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FileClient {
+public class FileClient { 
     public static void main(String[] args) {
         String serverAddress = "localhost";
         int port = 8080;
