@@ -46,7 +46,6 @@
 # Структура проекта
 
 ```text
-
 lyshchenko/lab1/
 ── rep/
 │   └── README.MD
