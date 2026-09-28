@@ -42,11 +42,11 @@ public class TCPclient {
                     String msg = scanner.nextLine();
                     if (msg.isEmpty()) break;
 
-                    // Логирование отправляемой строки (пункт 2)
+                    
                     log("Sent: " + msg + " at " + LocalDateTime.now().format(fmt));
 
-                    out.println(msg);               // отправка
-                    String response = in.readLine(); // чтение ответа
+                    out.println(msg);               
+                    String response = in.readLine(); 
                     if (response == null) {
                         System.out.println("Сервер закрыл соединение.");
                         break;
