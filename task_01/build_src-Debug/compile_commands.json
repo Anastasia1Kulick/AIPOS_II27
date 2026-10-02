@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/LordMegatron/Desktop/AIPOS_II27/task_01/build_src-Debug",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe   -g -std=gnu++20 -finput-charset=UTF-8 -fexec-charset=UTF-8 -o CMakeFiles\\TCP_server.dir\\tcp_server.cpp.obj -c C:\\Users\\LordMegatron\\Desktop\\AIPOS_II27\\task_01\\src\\server\\tcp_server.cpp",
-  "file": "C:/Users/LordMegatron/Desktop/AIPOS_II27/task_01/src/server/tcp_server.cpp",
-  "output": "CMakeFiles/TCP_server.dir/tcp_server.cpp.obj"
-}
-]
