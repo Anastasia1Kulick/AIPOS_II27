@@ -12,3 +12,8 @@ venv/
 # Packet Tracer backups
 *.pkt.bak
 *.pka.bak
+
+#C++ Cmake
+
+build_src-Debug/
+.vscode/
