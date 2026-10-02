@@ -15,4 +15,9 @@ endif()
 
 add_executable(TCP_client ./tcp_client.cpp)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(TCP_client PRIVATE -static-libgcc -static-libstdc++ -static)
+endif()
+
+
 target_link_libraries(TCP_client ws2_32)

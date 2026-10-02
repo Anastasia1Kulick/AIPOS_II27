@@ -11,7 +11,7 @@
 
 class TcpClient {
 public:
-    // Конструктор инициализирует Winsock
+   
     TcpClient(const std::string& serverIp, int port)
         : m_serverIp(serverIp), m_port(port), m_socket(INVALID_SOCKET)
     {
@@ -21,13 +21,13 @@ public:
         }
     }
 
-    // Деструктор автоматически закрывает ресурсы
+    
     ~TcpClient() {
         disconnect();
         WSACleanup();
     }
 
-    // Подключение к серверу
+    
     void connectToServer() {
         m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (m_socket == INVALID_SOCKET) {
@@ -38,7 +38,7 @@ public:
         destAddr.sin_family = AF_INET;
         destAddr.sin_port = htons(m_port);
 
-        // Преобразование IP адреса (проверка строки на валидность адреса / имени хоста)
+      
         if (inet_pton(AF_INET, m_serverIp.c_str(), &destAddr.sin_addr) != 1) {
             addrinfo hints{}, * res = nullptr;
             hints.ai_family = AF_INET;
@@ -54,18 +54,18 @@ public:
             }
         }
 
-        // Установка соединения
+        
         if (connect(m_socket, reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr)) == SOCKET_ERROR) {
             closesocket(m_socket);
             m_socket = INVALID_SOCKET;
             throw std::runtime_error("Connect failed. Error: " + std::to_string(WSAGetLastError()));
         }
 
-        std::cout << "Соединение с " << m_serverIp << " успешно установлено\n";
+        std::cout << "Connection with " << m_serverIp << " success\n";
         std::cout << "Type quit for quit\n\n";
     }
 
-    // Основной цикл обмена сообщениями
+
     void runCommunicationLoop() {
         if (m_socket == INVALID_SOCKET) {
             std::cerr << "Нет активного соединения с сервером.\n";
@@ -89,7 +89,7 @@ public:
         std::vector<char> buffer(1024);
         int bytesRecv = 0;
 
-        // Цикл чтения сообщений от сервера
+       
         while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
             buffer[bytesRecv] = '\0'; 
 
@@ -116,10 +116,10 @@ public:
                 break;
             }
 
-            // Добавляем символы перевода строки, чтобы сервер читал это как пакет данных
+            /
             userInput += "\r\n";
 
-            // Передаем строку клиента серверу с точным расчетом длины пользовательского ввода
+       
             if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
                 std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
                 break;
@@ -133,7 +133,7 @@ public:
         disconnect();
     }
 
-    // Принудительное закрытие сокета
+  
     void disconnect() {
         if (m_socket != INVALID_SOCKET) {
             closesocket(m_socket);
@@ -164,15 +164,15 @@ int main() {
     std::cout << "TCP CLIENT\n";
 
     try {
-        // Создаем экземпляр клиента (IP сервера: 127.0.0.1, Порт: 666)
+     
         TcpClient client("127.0.0.1", 666);
 
-        // Подключаемся и запускаем цикл обмена сообщениями
+       
         client.connectToServer();
         client.runCommunicationLoop();
     }
     catch (const std::exception& ex) {
-        std::cerr << "Критическая ошибка: " << ex.what() << "\n";
+        std::cerr << "Critical error: " << ex.what() << "\n";
         return -1;
     }
 
