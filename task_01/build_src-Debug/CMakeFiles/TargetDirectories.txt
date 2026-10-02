@@ -1,0 +1,3 @@
+C:/Users/LordMegatron/Desktop/AIPOS_II27/task_01/build_src-Debug/CMakeFiles/TCP_server.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/task_01/build_src-Debug/CMakeFiles/edit_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/task_01/build_src-Debug/CMakeFiles/rebuild_cache.dir

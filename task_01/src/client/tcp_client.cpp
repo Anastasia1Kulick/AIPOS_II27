@@ -11,7 +11,7 @@
 
 class TcpClient {
 public:
-    // Конструктор инициализирует Winsock
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ Winsock
     TcpClient(const std::string& serverIp, int port)
         : m_serverIp(serverIp), m_port(port), m_socket(INVALID_SOCKET)
     {
@@ -21,13 +21,13 @@ public:
         }
     }
 
-    // Деструктор автоматически закрывает ресурсы
+    // Р”РµСЃС‚СЂСѓРєС‚РѕСЂ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё Р·Р°РєСЂС‹РІР°РµС‚ СЂРµСЃСѓСЂСЃС‹
     ~TcpClient() {
         disconnect();
         WSACleanup();
     }
 
-    // Подключение к серверу
+    // РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ
     void connectToServer() {
         m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (m_socket == INVALID_SOCKET) {
@@ -38,7 +38,7 @@ public:
         destAddr.sin_family = AF_INET;
         destAddr.sin_port = htons(m_port);
 
-        // Преобразование IP адреса (проверка строки на валидность адреса / имени хоста)
+        // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ IP Р°РґСЂРµСЃР° (РїСЂРѕРІРµСЂРєР° СЃС‚СЂРѕРєРё РЅР° РІР°Р»РёРґРЅРѕСЃС‚СЊ Р°РґСЂРµСЃР° / РёРјРµРЅРё С…РѕСЃС‚Р°)
         if (inet_pton(AF_INET, m_serverIp.c_str(), &destAddr.sin_addr) != 1) {
             addrinfo hints{}, * res = nullptr;
             hints.ai_family = AF_INET;
@@ -54,21 +54,21 @@ public:
             }
         }
 
-        // Установка соединения
+        // РЈСЃС‚Р°РЅРѕРІРєР° СЃРѕРµРґРёРЅРµРЅРёСЏ
         if (connect(m_socket, reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr)) == SOCKET_ERROR) {
             closesocket(m_socket);
             m_socket = INVALID_SOCKET;
             throw std::runtime_error("Connect failed. Error: " + std::to_string(WSAGetLastError()));
         }
 
-        std::cout << "Соединение с " << m_serverIp << " успешно установлено\n";
+        std::cout << "РЎРѕРµРґРёРЅРµРЅРёРµ СЃ " << m_serverIp << " СѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ\n";
         std::cout << "Type quit for quit\n\n";
     }
 
-    // Основной цикл обмена сообщениями
+    // РћСЃРЅРѕРІРЅРѕР№ С†РёРєР» РѕР±РјРµРЅР° СЃРѕРѕР±С‰РµРЅРёСЏРјРё
     void runCommunicationLoop() {
         if (m_socket == INVALID_SOCKET) {
-            std::cerr << "Нет активного соединения с сервером.\n";
+            std::cerr << "РќРµС‚ Р°РєС‚РёРІРЅРѕРіРѕ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј.\n";
             return;
         }
         else {
@@ -76,11 +76,11 @@ public:
 
             std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
 
-
+            
             std::tm localTime;
             localtime_s(&localTime, &currentTime);
 
-
+        
             std::cout << "Start time: "
                 << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S")
                 << std::endl;
@@ -89,9 +89,9 @@ public:
         std::vector<char> buffer(1024);
         int bytesRecv = 0;
 
-        // Цикл чтения сообщений от сервера
+        // Р¦РёРєР» С‡С‚РµРЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ СЃРµСЂРІРµСЂР°
         while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
-            buffer[bytesRecv] = '\0';
+            buffer[bytesRecv] = '\0'; 
 
 
             auto now = std::chrono::system_clock::now();
@@ -105,21 +105,21 @@ public:
             std::cout << "Recieved msg from server at "
                 << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\t" << buffer.data();
 
-
+           
             std::cout << "Send to server:  ";
             std::string userInput;
             std::getline(std::cin, userInput);
 
-
+          
             if (userInput == "quit") {
                 std::cout << "Exit...\n";
                 break;
             }
 
-            // Добавляем символы перевода строки, чтобы сервер читал это как пакет данных
+            // Р”РѕР±Р°РІР»СЏРµРј СЃРёРјРІРѕР»С‹ РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё, С‡С‚РѕР±С‹ СЃРµСЂРІРµСЂ С‡РёС‚Р°Р» СЌС‚Рѕ РєР°Рє РїР°РєРµС‚ РґР°РЅРЅС‹С…
             userInput += "\r\n";
 
-            // Передаем строку клиента серверу с точным расчетом длины пользовательского ввода
+            // РџРµСЂРµРґР°РµРј СЃС‚СЂРѕРєСѓ РєР»РёРµРЅС‚Р° СЃРµСЂРІРµСЂСѓ СЃ С‚РѕС‡РЅС‹Рј СЂР°СЃС‡РµС‚РѕРј РґР»РёРЅС‹ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ РІРІРѕРґР°
             if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
                 std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
                 break;
@@ -133,7 +133,7 @@ public:
         disconnect();
     }
 
-    // Принудительное закрытие сокета
+    // РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕРµ Р·Р°РєСЂС‹С‚РёРµ СЃРѕРєРµС‚Р°
     void disconnect() {
         if (m_socket != INVALID_SOCKET) {
             closesocket(m_socket);
@@ -164,15 +164,15 @@ int main() {
     std::cout << "TCP CLIENT\n";
 
     try {
-        // Создаем экземпляр клиента (IP сервера: 127.0.0.1, Порт: 666)
+        // РЎРѕР·РґР°РµРј СЌРєР·РµРјРїР»СЏСЂ РєР»РёРµРЅС‚Р° (IP СЃРµСЂРІРµСЂР°: 127.0.0.1, РџРѕСЂС‚: 666)
         TcpClient client("127.0.0.1", 666);
 
-        // Подключаемся и запускаем цикл обмена сообщениями
+        // РџРѕРґРєР»СЋС‡Р°РµРјСЃСЏ Рё Р·Р°РїСѓСЃРєР°РµРј С†РёРєР» РѕР±РјРµРЅР° СЃРѕРѕР±С‰РµРЅРёСЏРјРё
         client.connectToServer();
         client.runCommunicationLoop();
     }
     catch (const std::exception& ex) {
-        std::cerr << "Критическая ошибка: " << ex.what() << "\n";
+        std::cerr << "РљСЂРёС‚РёС‡РµСЃРєР°СЏ РѕС€РёР±РєР°: " << ex.what() << "\n";
         return -1;
     }
 
