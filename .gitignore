@@ -18,3 +18,4 @@ venv/
 build_src-Debug/
 .vscode/
 build_task_01-Debug/
+build_AIPOS_II27-Debug/

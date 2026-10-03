@@ -202,45 +202,46 @@ private:
 
     
     void handleClient(SOCKET clientSocket) {
-        const std::string helloMessage = "Hello, Student!\r\n";
-        send(clientSocket, helloMessage.c_str(), static_cast<int>(helloMessage.size()), 0);
+     
 
         std::vector<char> buffer(20 * 1024);
         int bytesRecv = 0;
 
 
-        auto ShowVec = [](const std::vector<char> vec) {
-            std::cout << "S<=C: ";
-            for (const auto& n : vec) {
-                std::cout << n;
-            }
-            std::cout << std::endl;
+         auto SumOfChar = [](const std::vector<char>& vec, int actual_size, int &res) {
+            res = 0; 
+    
+    
+                for (int i = 0; i < actual_size; ++i) {
+                    res += vec[i];
+                }
             return 0;
         };
 
-        auto SetString = [](const std::vector<char> vec,std::string &command) {
-         
-            for (const auto& n : vec) {
-                command += n;
-            }
-            return 0;
-            };
+       
         std::string command;
-
+        int totalSize = 0;
         while ((bytesRecv = recv(clientSocket, buffer.data(), static_cast<int>(buffer.size()), 0)) > 0) {
-           
-            send(clientSocket, buffer.data(), bytesRecv, 0);
+            bytesRecv -= 2;
+            totalSize += bytesRecv;
+            int res = 0;
+            std::string temp(buffer.data(),bytesRecv);
 
-          
-            std::string command(buffer.data(), bytesRecv);
-
-            
-            std::cout << "S<=C: " << command << std::endl;
-
-           
-            if (!CheckForCommand(command)) {
-                std::cout << "No command" << std::endl;
+            if(temp.find("~#~") != std::string::npos ){
+                temp.clear();
+                temp += "-1";
+                send(clientSocket, temp.c_str(), (int)temp.size() , 0);
+                closesocket(clientSocket);
+                return;
             }
+            SumOfChar(buffer,bytesRecv,res);
+            std::string responseStr = std::to_string(res) + ':' + std::to_string(totalSize);
+                if(bytesRecv  == 48){
+                    responseStr += "\n";
+                }
+            std::cout << responseStr << std::endl;
+            send(clientSocket, responseStr.c_str(), (int)responseStr.size() , 0);
+  
         }
 
        

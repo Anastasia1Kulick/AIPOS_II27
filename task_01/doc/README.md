@@ -41,7 +41,7 @@
 
 
 Брест 2026
-# Вариант 11
+# Вариант 7
 
 # Цель работы: 
 
@@ -66,14 +66,14 @@
 
 class TcpServer {
 private:
-    // Вспомогательная структура для безопасной передачи параметров в поток
+   
     struct ThreadParam {
         TcpServer* serverPointer;
         SOCKET clientSocket;
     };
 
 public:
-    // Конструктор инициализирует Winsock и создает слушающий сокет
+    
     TcpServer(int port) : m_port(port), m_listenSocket(INVALID_SOCKET), m_nclients(0) {
         WSADATA wsaData;
         if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -81,7 +81,7 @@ public:
         }
     }
 
-    // Деструктор гарантирует закрытие ресурсов при уничтожении объекта класса
+   
     ~TcpServer() {
         if (m_listenSocket != INVALID_SOCKET) {
             closesocket(m_listenSocket);
@@ -89,7 +89,7 @@ public:
         WSACleanup();
     }
 
-    // Запуск сервера: привязка, прослушивание и запуск основного цикла
+   
     void start() {
         m_listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (m_listenSocket == INVALID_SOCKET) {
@@ -99,7 +99,7 @@ public:
         sockaddr_in localAddr{};
         localAddr.sin_family = AF_INET;
         localAddr.sin_port = htons(m_port);
-        localAddr.sin_addr.s_addr = INADDR_ANY; // Принимаем подключения на все IP-адреса
+        localAddr.sin_addr.s_addr = INADDR_ANY; 
 
         if (bind(m_listenSocket, reinterpret_cast<sockaddr*>(&localAddr), sizeof(localAddr)) == SOCKET_ERROR) {
             throw std::runtime_error("Bind failed. Error: " + std::to_string(WSAGetLastError()));
@@ -110,7 +110,7 @@ public:
         }
 
         std::cout << "TCP Server started on port " << m_port << "\n";
-        std::cout << "Ожидание подключений...\n";
+        std::cout << "Waiting for connection...\n";
 
         run();
     }
@@ -118,9 +118,9 @@ public:
 private:
     int m_port;
     SOCKET m_listenSocket;
-    std::atomic<int> m_nclients; // Потокобезопасный счетчик клиентов
+    std::atomic<int> m_nclients; 
 
-    // Вывод количества пользователей в консоль
+
     void printUsersCount() const {
         int currentClients = m_nclients.load();
         if (currentClients > 0) {
@@ -131,7 +131,7 @@ private:
         }
     }
 
-    // Основной цикл обработки входящих подключений
+   
     void run() {
         while (true) {
             sockaddr_in clientAddr{};
@@ -145,7 +145,7 @@ private:
 
             m_nclients++;
 
-            // Определение имени хоста и IP-адреса клиента
+          
             char host[NI_MAXHOST] = "";
             char ipStr[INET_ADDRSTRLEN] = "";
 
@@ -155,41 +155,40 @@ private:
             std::cout << "+ Host: " << host << " [" << ipStr << "] new connect!\n";
             printUsersCount();
 
-            // Создаем структуру с параметрами в динамической памяти, чтобы поток забрал её атомарно
+         
             ThreadParam* pParam = new ThreadParam{ this, clientSocket };
 
-            // Создаем отдельный поток для обслуживания клиента
+            
             HANDLE thID = CreateThread(nullptr, 0, clientThreadProxy, pParam, 0, nullptr);
             if (thID) {
-                CloseHandle(thID); // Закрываем дескриптор потока, он нам больше не нужен в основном цикле
+                CloseHandle(thID);
             }
             else {
                 std::cerr << "Failed to create thread\n";
                 closesocket(clientSocket);
-                delete pParam; // Очищаем память, если поток не запустился
+                delete pParam;
                 m_nclients--;
             }
         }
     }
 
-    // Статический прокси-метод для CreateThread
+ 
     static DWORD WINAPI clientThreadProxy(LPVOID lpParam) {
         if (!lpParam) return -1;
 
-        // Извлекаем параметры из переданной структуры
+ 
         ThreadParam* pParam = reinterpret_cast<ThreadParam*>(lpParam);
         TcpServer* server = pParam->serverPointer;
         SOCKET clientSock = pParam->clientSocket;
 
-        // Удаляем структуру из памяти, так как мы уже скопировали данные
         delete pParam;
 
-        // Вызываем метод класса для обработки клиента
+       
         server->handleClient(clientSock);
         return 0;
     }
 
-    void ProccedCommand(const std::string& command, std::string& fileName, std::string& str) {
+    void ProccedCommand(const std::string& command,std::string &fileName, std::string &str) {
         size_t start = command.find('<');
         if (start == std::string::npos) {
             str = " ";
@@ -200,26 +199,25 @@ private:
             str = " ";
         }
 
-        // 3. Вырезаем текст между ними
-        str = command.substr(start + 1, end - start - 1);
+      
+        str =  command.substr(start + 1, end - start - 1);
 
         start = end;
 
-        start = command.find('<', start + 1);
+        start = command.find('<',start + 1);
         if (start == std::string::npos) {
             fileName = " ";
         }
 
-        // 2. Ищем вторую кавычку, начиная со следующего символа
         end = command.find('>', start + 1);
         if (end == std::string::npos) {
             fileName = " ";
         }
 
-        fileName = command.substr(start + 1, end - start - 1);
+       fileName = command.substr(start + 1, end - start - 1);
     }
 
-    bool CheckForCommand(const std::string& command) {
+    bool CheckForCommand(const std::string &command) {
         std::string filename;
         std::string str;
         if (command.find("find") != std::string::npos) {
@@ -238,9 +236,9 @@ private:
         int numOfStr = 0;
         std::ifstream file(filename);
 
-
+        
         if (!file.is_open()) {
-            std::cerr << "Не удалось открыть файл!" << std::endl;
+            std::cerr << "Cant open file!" << std::endl;
             return numOfStr;
         }
 
@@ -251,56 +249,57 @@ private:
             }
         }
 
-
+       
         file.close();
 
         return numOfStr;
     }
 
-    // Метод непосредственного общения с клиентом (Эхо-режим)
+    
     void handleClient(SOCKET clientSocket) {
-        const std::string helloMessage = "Hello, Student!\r\n";
-        send(clientSocket, helloMessage.c_str(), static_cast<int>(helloMessage.size()), 0);
+     
 
         std::vector<char> buffer(20 * 1024);
         int bytesRecv = 0;
 
 
-        auto ShowVec = [](const std::vector<char> vec) {
-            std::cout << "S<=C: ";
-            for (const auto& n : vec) {
-                std::cout << n;
-            }
-            std::cout << std::endl;
+         auto SumOfChar = [](const std::vector<char>& vec, int actual_size, int &res) {
+            res = 0; 
+    
+    
+                for (int i = 0; i < actual_size; ++i) {
+                    res += vec[i];
+                }
             return 0;
-            };
+        };
 
-        auto SetString = [](const std::vector<char> vec, std::string& command) {
-
-            for (const auto& n : vec) {
-                command += n;
-            }
-            return 0;
-            };
+       
         std::string command;
-        // Цикл эхо-ответа
+        int totalSize = 0;
         while ((bytesRecv = recv(clientSocket, buffer.data(), static_cast<int>(buffer.size()), 0)) > 0) {
+            bytesRecv -= 2;
+            totalSize += bytesRecv;
+            int res = 0;
+            std::string temp(buffer.data(),bytesRecv);
 
-            send(clientSocket, buffer.data(), bytesRecv, 0);
-
-
-            std::string command(buffer.data(), bytesRecv);
-
-
-            std::cout << "S<=C: " << command << std::endl;
-
-
-            if (!CheckForCommand(command)) {
-                std::cout << "No command" << std::endl;
+            if(temp.find("~#~") != std::string::npos ){
+                temp.clear();
+                temp += "-1";
+                send(clientSocket, temp.c_str(), (int)temp.size() , 0);
+                closesocket(clientSocket);
+                return;
             }
+            SumOfChar(buffer,bytesRecv,res);
+            std::string responseStr = std::to_string(res) + ':' + std::to_string(totalSize);
+                if(bytesRecv  == 48){
+                    responseStr += "\n";
+                }
+            std::cout << responseStr << std::endl;
+            send(clientSocket, responseStr.c_str(), (int)responseStr.size() , 0);
+  
         }
 
-        // Клиент отключился или произошла ошибка
+       
         m_nclients--;
         std::cout << "-disconnect\n";
         printUsersCount();
@@ -313,17 +312,18 @@ int main() {
     setlocale(LC_ALL, "RU");
 
     try {
-        // Создаем экземпляр сервера на порту 666 и запускаем его
+        
         TcpServer server(666);
         server.start();
     }
     catch (const std::exception& ex) {
-        std::cerr << "Критическая ошибка: " << ex.what() << "\n";
+        std::cerr << "Critical error: " << ex.what() << "\n";
         return -1;
     }
 
     return 0;
 }
+
 
 ```
 # Задание 2:
@@ -345,7 +345,7 @@ int main() {
 
 class TcpClient {
 public:
-    // Конструктор инициализирует Winsock
+   
     TcpClient(const std::string& serverIp, int port)
         : m_serverIp(serverIp), m_port(port), m_socket(INVALID_SOCKET)
     {
@@ -355,13 +355,13 @@ public:
         }
     }
 
-    // Деструктор автоматически закрывает ресурсы
+    
     ~TcpClient() {
         disconnect();
         WSACleanup();
     }
 
-    // Подключение к серверу
+    
     void connectToServer() {
         m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if (m_socket == INVALID_SOCKET) {
@@ -372,7 +372,7 @@ public:
         destAddr.sin_family = AF_INET;
         destAddr.sin_port = htons(m_port);
 
-        // Преобразование IP адреса (проверка строки на валидность адреса / имени хоста)
+      
         if (inet_pton(AF_INET, m_serverIp.c_str(), &destAddr.sin_addr) != 1) {
             addrinfo hints{}, * res = nullptr;
             hints.ai_family = AF_INET;
@@ -388,18 +388,18 @@ public:
             }
         }
 
-        // Установка соединения
+        
         if (connect(m_socket, reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr)) == SOCKET_ERROR) {
             closesocket(m_socket);
             m_socket = INVALID_SOCKET;
             throw std::runtime_error("Connect failed. Error: " + std::to_string(WSAGetLastError()));
         }
 
-        std::cout << "Соединение с " << m_serverIp << " успешно установлено\n";
+        std::cout << "Connection with " << m_serverIp << " success\n";
         std::cout << "Type quit for quit\n\n";
     }
 
-    // Основной цикл обмена сообщениями
+
     void runCommunicationLoop() {
         if (m_socket == INVALID_SOCKET) {
             std::cerr << "Нет активного соединения с сервером.\n";
@@ -410,11 +410,11 @@ public:
 
             std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
 
-
+            
             std::tm localTime;
             localtime_s(&localTime, &currentTime);
 
-
+        
             std::cout << "Start time: "
                 << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S")
                 << std::endl;
@@ -423,51 +423,67 @@ public:
         std::vector<char> buffer(1024);
         int bytesRecv = 0;
 
-        // Цикл чтения сообщений от сервера
-        while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
-            buffer[bytesRecv] = '\0';
+        auto AddToStr = [](const std::vector<char> &buffer, int size,std::string &str) {
+                for (int i = 0; i < size; ++i) {
+                    str += buffer[i];
+                }
+            return 0;
+        };
 
+        std::string str;
+        int res = 0;
+         std::cout << "Send to server:  ";
+                std::string userInput;
+                std::getline(std::cin, userInput);
 
-            auto now = std::chrono::system_clock::now();
+                userInput += "\r\n";
 
-            std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-
-
-            std::tm localTime;
-            localtime_s(&localTime, &currentTime);
-
-            std::cout << "Recieved msg from server at "
-                << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\t" << buffer.data();
-
-
-            std::cout << "Send to server:  ";
-            std::string userInput;
-            std::getline(std::cin, userInput);
-
-
-            if (userInput == "quit") {
-                std::cout << "Exit...\n";
-                break;
-            }
-
-            // Добавляем символы перевода строки, чтобы сервер читал это как пакет данных
-            userInput += "\r\n";
-
-            // Передаем строку клиента серверу с точным расчетом длины пользовательского ввода
-            if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
-                std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
-                break;
-            }
+       
+                if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
+                    std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
+                    disconnect();
         }
+        while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
+            
+            AddToStr(buffer,bytesRecv,str);
+
+            if(str.back() == '\n' && !str.empty()){
+                str.pop_back();
+
+                size_t delimiterPos = str.find(':');
+
+                if (delimiterPos != std::string::npos) {
+            
+                std::string partRes = str.substr(0, delimiterPos);           
+                std::string partTotalSize = str.substr(delimiterPos + 1);
+                std::cout << "From server got result: " << std::stoi(partRes) << "Total send bytes: "<<  std::stoi(partTotalSize) << std::endl;
+                }
+            }  
+            else if(str == "-1"){
+                disconnect();
+                break;
+            } 
+                std::cout << "Send to server:  ";
+                std::string userInput;
+                std::getline(std::cin, userInput);
+
+                userInput += "\r\n";
+                str.clear();
+                    if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
+                        std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
+                        break;
+                    }
 
         if (bytesRecv == SOCKET_ERROR) {
             std::cerr << "Recv error: " << WSAGetLastError() << "\n";
+            disconnect();
+            break;
         }
 
-        disconnect();
     }
+}
 
-    // Принудительное закрытие сокета
+  
     void disconnect() {
         if (m_socket != INVALID_SOCKET) {
             closesocket(m_socket);
@@ -498,26 +514,47 @@ int main() {
     std::cout << "TCP CLIENT\n";
 
     try {
-        // Создаем экземпляр клиента (IP сервера: 127.0.0.1, Порт: 666)
+     
         TcpClient client("127.0.0.1", 666);
 
-        // Подключаемся и запускаем цикл обмена сообщениями
+       
         client.connectToServer();
         client.runCommunicationLoop();
     }
     catch (const std::exception& ex) {
-        std::cerr << "Критическая ошибка: " << ex.what() << "\n";
+        std::cerr << "Critical error: " << ex.what() << "\n";
         return -1;
     }
 
     return 0;
 }
 
+
 ```
 
 # Результат работы:
  
+## Client
+```
+PS C:\Users\LordMegatron\Desktop\build_AIPOS_II27-Debug\client> ./TCP_client 
+TCP CLIENT
+Connection with 127.0.0.1 success
+Type ~#~ for quit
 
+Start time: 2026-10-03 07:47:21
+Send to server:  q
+```
+
+## Server 
+
+```
+PS C:\Users\LordMegatron\Desktop\build_AIPOS_II27-Debug\server> ./TCP_server 
+TCP Server started on port 666
+Waiting for connection...
++ Host: DESKTOP-3C038RU [127.0.0.1] new connect!
+1 user(s) on-line
+113:1
+```
  
 
 # Вывод:
