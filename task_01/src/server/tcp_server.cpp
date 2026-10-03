@@ -16,7 +16,6 @@ private:
         SOCKET clientSocket;
         sockaddr_in clientAddr; 
     };
-
 public:
     TcpServer(int port) : m_port(port), m_listenSocket(INVALID_SOCKET), m_nclients(0) {
         WSADATA wsaData;
@@ -146,10 +145,7 @@ private:
 
         std::string port = command.substr(start + 1, end - start - 1);
 
-        std::string realIp = inet_ntoa(clientAddr.sin_addr);
-        std::string realPort = std::to_string(ntohs(clientAddr.sin_port));
-
-        if (adress == "127.0.0.1" && port == "666") {
+        if (adress == "127.0.0.1" && port == std::to_string(m_port)) {
             return true;
         }
 
