@@ -59,7 +59,7 @@ public:
         }
 
         std::cout << "UDP Client initialized for target " << m_serverIp << ":" << m_port << "\n";
-        std::cout << "Type quit to quit\n\n";
+        std::cout << "Type ~#~ to quit\n\n";
     }
 
     void runCommunicationLoop() {
@@ -67,46 +67,83 @@ public:
             std::cerr << "Нет активного сокета для отправки данных.\n";
             return;
         }
-
-        logTime("Start time");
-
-        std::vector<char> buffer(10 * 1024);
-        std::string userInput;
-
-        while (true) {
-            std::cout << "Send to server: ";
-            std::getline(std::cin, userInput);
-
-            if (userInput == "quit") {
-                std::cout << "Exit...\n";
-                break;
-            }
-
-
-            if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
-                std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
-                break;
-            }
-
-            int bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0);
-            if (bytesRecv == SOCKET_ERROR) {
-                std::cerr << "Recv error: " << WSAGetLastError() << "\n";
-                break;
-            }
-
-            buffer[bytesRecv] = '\0';
-
+        else {
             auto now = std::chrono::system_clock::now();
+
             std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+
+            
             std::tm localTime;
             localtime_s(&localTime, &currentTime);
 
-            std::cout << "Received msg from server at "
-                      << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\t" << buffer.data() << "\n";
+        
+            std::cout << "Start time: "
+                << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S")
+                << std::endl;
         }
 
-        disconnect();
+       
+
+        std::vector<char> buffer(1024);
+        int bytesRecv = 0;
+
+        auto AddToStr = [](const std::vector<char> &buffer, int size,std::string &str) {
+                for (int i = 0; i < size; ++i) {
+                    str += buffer[i];
+                }
+            return 0;
+        };
+
+        std::string str;
+        int res = 0;
+         std::cout << "Send to server:  ";
+                std::string userInput;
+                std::getline(std::cin, userInput);
+
+                userInput += "\r\n";
+
+       
+                if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
+                    std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
+                    disconnect();
+        }
+        while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
+            
+            AddToStr(buffer,bytesRecv,str);
+            if(str.back() == '\n') str.pop_back();
+            if(str == "-1"){
+                disconnect();
+                break;
+            } 
+            
+            size_t delimiterPos = str.find(':');
+
+            if (delimiterPos != std::string::npos) {
+            
+            std::string partRes = str.substr(0, delimiterPos);           
+            std::string partTotalSize = str.substr(delimiterPos + 1);
+            std::cout << "From server got result: " << std::stoi(partRes) << "Total send bytes: "<<  std::stoi(partTotalSize) << std::endl;
+            } 
+          
+            std::cout << "Send to server:  ";
+            std::string userInput;
+            std::getline(std::cin, userInput);
+
+            userInput += "\r\n";
+                str.clear();
+                    if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
+                        std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
+                        break;
+                    }
+
+        if (bytesRecv == SOCKET_ERROR) {
+            std::cerr << "Recv error: " << WSAGetLastError() << "\n";
+            disconnect();
+            break;
+        }
+
     }
+}
 
     void disconnect() {
         if (m_socket != INVALID_SOCKET) {
