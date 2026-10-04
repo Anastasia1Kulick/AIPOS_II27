@@ -64,7 +64,7 @@ public:
 
     void runCommunicationLoop() {
         if (m_socket == INVALID_SOCKET) {
-            std::cerr << "Нет активного сокета для отправки данных.\n";
+            std::cerr << "No active conection.\n";
             return;
         }
         else {
@@ -96,54 +96,67 @@ public:
 
         std::string str;
         int res = 0;
-         std::cout << "Send to server:  ";
+        while(true){
+            str.clear();
+
+            std::cout << "Send to server:  ";
                 std::string userInput;
                 std::getline(std::cin, userInput);
 
-                userInput += "\r\n";
+               
 
-       
+                if(userInput == "~#~"){
+                    send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0);
+                    disconnect();
+                    break;
+                }
+                userInput += "\r\n";
                 if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
                     std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
                     disconnect();
-        }
-        while ((bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0)) > 0) {
-            
-            AddToStr(buffer,bytesRecv,str);
-            if(str.back() == '\n') str.pop_back();
-            if(str == "-1"){
-                disconnect();
-                break;
-            } 
-            
-            size_t delimiterPos = str.find(':');
-
-            if (delimiterPos != std::string::npos) {
-            
-            std::string partRes = str.substr(0, delimiterPos);           
-            std::string partTotalSize = str.substr(delimiterPos + 1);
-            std::cout << "From server got result: " << std::stoi(partRes) << "Total send bytes: "<<  std::stoi(partTotalSize) << std::endl;
-            } 
-          
-            std::cout << "Send to server:  ";
-            std::string userInput;
-            std::getline(std::cin, userInput);
-
-            userInput += "\r\n";
-                str.clear();
-                    if (send(m_socket, userInput.c_str(), static_cast<int>(userInput.size()), 0) == SOCKET_ERROR) {
-                        std::cerr << "Send failed. Error: " << WSAGetLastError() << "\n";
-                        break;
+                }
+                else{
+                    auto now = std::chrono::system_clock::now();
+                    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+                    std::tm localTime;
+                    localtime_s(&localTime, &currentTime);
+                    std::cout << "Sent at: " << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\tData:\t" << userInput << std::endl;
+                }
+                bytesRecv = recv(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0);
+                if(bytesRecv > 0){
+                    AddToStr(buffer,bytesRecv,str);
+                    while(!str.empty()) {
+                        if(str.back() == '\n' || str.back() == '\r' ){
+                            str.pop_back();
+                        }
+                        else{
+                            break;
+                        }
                     }
+                    if(str == "-1"){
+                        disconnect();
+                        break;
+                    } 
+            
+                size_t delimiterPos = str.find(':');
+
+                    if (delimiterPos != std::string::npos) {
+            
+                std::string partRes = str.substr(0, delimiterPos);           
+                std::string partTotalSize = str.substr(delimiterPos + 1);
+                std::cout << partRes << "\t" << partTotalSize << std::endl;
+                std::cout << "From server got result:\t" << std::stoi(partRes) << "\tTotal send bytes:\t"<<  std::stoi(partTotalSize) << std::endl;
+                }
+            }
+        }
 
         if (bytesRecv == SOCKET_ERROR) {
             std::cerr << "Recv error: " << WSAGetLastError() << "\n";
             disconnect();
-            break;
+            exit(1);
         }
 
     }
-}
 
     void disconnect() {
         if (m_socket != INVALID_SOCKET) {
