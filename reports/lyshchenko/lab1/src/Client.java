@@ -1,36 +1,33 @@
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class Client {
     private static final String LOG_FILE = "client_log.txt";
     private static PrintWriter logWriter;
-
-    // Потоки вынесены на уровень класса, чтобы создать их один раз при подключении
     private static Socket socket = null;
     private static BufferedReader in = null;
     private static PrintWriter out = null;
 
     public static void main(String[] args) throws IOException {
-        // Инициализация файла протокола событий
-        logWriter = new PrintWriter(new FileWriter(LOG_FILE, true), true);
+        logWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(LOG_FILE, true), StandardCharsets.UTF_8), true);
         log("Запуск клиента");
 
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
-        System.out.println("=== TCP Клиент (Вариант 8) ===");
-        System.out.println("Команды:");
+        System.out.println(" TCP Клиент ");
+        System.out.println(" Команды: ");
         System.out.println("  connect <адрес> <порт> - подключиться к серверу");
         System.out.println("  exit                   - завершить работу");
-        System.out.println("  (Примечание: отправка по Enter, т.к. стандартная консоль Java");
-        System.out.println("   не перехватывает клавишу End без сторонних библиотек)");
+        System.out.println("  (Для отправки добавьте символ '#' в конце строки и нажмите Enter.");
         System.out.println("  Для завершения сеанса на сервере введите: ~#~");
         System.out.println();
 
         try {
             while (true) {
                 System.out.print("> ");
-                String fromUser = stdIn.readLine();
+                String fromUser = stdIn.readLine().trim(); // .trim() убирает случайные пробелы
 
                 if (fromUser == null || fromUser.equalsIgnoreCase("exit")) {
                     break;
@@ -40,7 +37,6 @@ public class Client {
                 if (fromUser.startsWith("connect ")) {
                     String[] parts = fromUser.split("\\s+");
                     if (parts.length == 3) {
-                        // Закрытие предыдущего соединения, если было (ИСПРАВЛЕНО: добавлены скобки)
                         if (socket != null && !socket.isClosed()) {
                             log("[" + new Date() + "] Соединение разорвано (переподключение)");
                             socket.close();
@@ -48,12 +44,10 @@ public class Client {
                         String host = parts[1];
                         int port = Integer.parseInt(parts[2]);
                         
-                        // Создание нового сокета и потоков ОДИН РАЗ
                         socket = new Socket(InetAddress.getByName(host), port);
-                        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+                        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                        out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)), true);
                         
-                        // Логирование п.1: время начала соединения
                         log("[" + new Date() + "] Соединение установлено с " + host + ":" + port);
                         System.out.println("Подключено к " + host + ":" + port);
                     } else {
@@ -67,20 +61,24 @@ public class Client {
                     continue;
                 }
 
-                // Отправка строки серверу (используем уже созданный поток out)
-                out.println(fromUser);
-                // Логирование п.2: передаваемая строка и время передачи
-                log("[" + new Date() + "] Передано серверу: " + fromUser);
-                System.out.println("Отправлено: " + fromUser);
+                if (fromUser.equals("~#~") || fromUser.endsWith("#")) {
+                    // Если есть #, убираем ее перед отправкой
+                    String messageToSend = fromUser.endsWith("#") ? fromUser.substring(0, fromUser.length() - 1) : fromUser;
+                    
+                    out.println(messageToSend);
+                    log("[" + new Date() + "] Передано серверу: " + messageToSend);
+                    System.out.println("Отправлено: " + messageToSend);
+                } else {
+                    System.out.println("[Ожидание] Добавьте символ '#' в конце строки для отправки.");
+                    continue;
+                }
 
-                // Чтение ответа от сервера (используем уже созданный поток in)
+                // Чтение ответа от сервера
                 String response = in.readLine();
                 if (response != null) {
                     System.out.println("Сервер: " + response);
-                    // Логирование п.3: принимаемая строка и время приема
                     log("[" + new Date() + "] Принято от сервера: " + response);
                 } else {
-                    // Если сервер разорвал соединение
                     System.out.println("Соединение разорвано сервером");
                     log("[" + new Date() + "] Соединение разорвано сервером");
                     socket.close();
@@ -88,7 +86,6 @@ public class Client {
                 }
             }
         } finally {
-            // Логирование п.1: время окончания соединения
             if (socket != null && !socket.isClosed()) {
                 log("[" + new Date() + "] Соединение разорвано (завершение работы)");
                 socket.close();
@@ -104,4 +101,4 @@ public class Client {
             logWriter.println(message);
         }
     }
-} ///:~
+}
