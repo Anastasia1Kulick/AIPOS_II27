@@ -110,7 +110,7 @@ public:
                 exit(1);
             }
             std::string answer;
-            if(temp.size() == 3){
+            if(temp.size() == 5){
                 int res = 0;
                 for(const auto n: temp){
                     res += (int)n;
