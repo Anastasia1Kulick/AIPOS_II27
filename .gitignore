@@ -15,6 +15,6 @@ venv/
 
 #C++ Cmake
 
-##build_src-Debug/
-##build_task_01-Debug/
-##build_AIPOS_II27-Debug/
+build_src-Debug/
+build_task_01-Debug/
+build_AIPOS_II27-Debug/
