@@ -98,8 +98,8 @@ int main(int argc, char* argv[]) {
     int  input_len = 0;
 
     // Инициализация лога
-    log_event("=== Client Started ===");
-    printf("TCP DEMO CLIENT (Variant 4)\n");
+    log_event("Client Started");
+    printf("TCP CLIENT (Variant 4)\n");
     printf("Press PgDn to send the typed line.\n\n");
 
     // Инициализация Winsock 
