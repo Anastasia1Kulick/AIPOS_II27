@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    log_event("=== Client Stopped ===");
+    log_event("Client Stopped");
     closesocket(my_sock);
     WSACleanup();
     return 0;
