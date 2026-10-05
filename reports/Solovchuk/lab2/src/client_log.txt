@@ -1,0 +1,17 @@
+[2026-10-05 13:07:36] Client Started
+[2026-10-05 13:07:36] Target server: 127.0.0.1:670
+[2026-10-05 13:09:30] User input:
+[2026-10-05 13:09:30] User input: load test.txt
+[2026-10-05 13:09:30] Sent to server: load test.txt
+[2026-10-05 13:09:30] Received: ERROR: File not found
+[2026-10-05 13:10:15] Client Started
+[2026-10-05 13:10:15] Target server: 127.0.0.1:670
+[2026-10-05 13:10:33] User input:
+[2026-10-05 13:10:33] User input: load s.txt
+[2026-10-05 13:10:33] Sent to server: load s.txt
+[2026-10-05 13:10:33] Received: буря мглою небо кроет
+вихри снежные крутя
+то как смерч она завоет
+то заплачет как дитя
+[2026-10-05 13:10:33] Received: [EOF]
+[2026-10-05 13:10:33] File transfer completed
