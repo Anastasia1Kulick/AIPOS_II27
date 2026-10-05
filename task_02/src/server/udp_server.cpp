@@ -46,6 +46,34 @@ public:
         std::cout << "UDP echo-Server started on port " << m_port << "\n\n";
     }
 
+    bool ProccedCommand(const std::string& command) {
+        if (command.find("disconnect") == std::string::npos) {
+            return false; 
+        }
+
+        size_t start = command.find('<');
+        if (start == std::string::npos) return false;
+
+        size_t end = command.find('>', start + 1);
+        if (end == std::string::npos) return false;
+
+        std::string adress = command.substr(start + 1, end - start - 1);
+
+        start = command.find('<', end + 1);
+        if (start == std::string::npos) return false;
+
+        end = command.find('>', start + 1);
+        if (end == std::string::npos) return false;
+
+        std::string port = command.substr(start + 1, end - start - 1);
+
+        if (adress == "127.0.0.1" && port == std::to_string(m_port)) {
+            return true;
+        }
+
+        return false;
+    }
+
     void runEchoLoop() {
         if (m_socket == INVALID_SOCKET) {
             std::cerr << "Сервер не запущен.\n";
@@ -56,20 +84,49 @@ public:
 
         std::vector<char> buffer(1024);
         sockaddr_in clientAddr{};
-        int clientAddrSize = sizeof(clientAddr);
-
+        int totalSize = 0;
+        std::string temp;
         while (true) {
+            int clientAddrSize = sizeof(clientAddr);
             int bytesRecv = recvfrom(m_socket, buffer.data(), static_cast<int>(buffer.size() - 1), 0,
                                      reinterpret_cast<sockaddr*>(&clientAddr), &clientAddrSize);
-
             if (bytesRecv == SOCKET_ERROR) {
                 std::cerr << "Recvfrom error: " << WSAGetLastError() << "\n";
                 break;
             }
+            temp = std::string(buffer.data(),bytesRecv);
+           while(!temp.empty()) {
+                        if(temp.back() == '\n' || temp.back() == '\r' ){
+                            temp.pop_back();
+                        }
+                        else{
+                            break;
+                        }
+            }
+            totalSize += temp.size();
+            if(ProccedCommand(temp) || temp.find("~#~") != std::string::npos){
+                std::string answer= "-1";
+                stop();
+                exit(1);
+            }
+            std::string answer;
+            if(temp.size() == 3){
+                int res = 0;
+                for(const auto n: temp){
+                    res += (int)n;
+                }
+                auto now = std::chrono::system_clock::now();
+                std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+                std::tm localTime;
+                localtime_s(&localTime, &currentTime);
+                std::cout << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "\tResult of sum: " << res << std::endl;
+                answer = std::to_string(res) + ":" + std::to_string(totalSize);
+            }
+            else{
+                answer = '0';
+            }
 
-            buffer[bytesRecv] = '\0';
 
-           
             char ipStr[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, &(clientAddr.sin_addr), ipStr, INET_ADDRSTRLEN);
 
@@ -80,17 +137,8 @@ public:
                 hostName[12] = '\0';
             }
 
-            auto now = std::chrono::system_clock::now();
-            std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-            std::tm localTime;
-            localtime_s(&localTime, &currentTime);
-
-            std::cout << "[" << std::put_time(&localTime, "%Y-%m-%d %H:%M:%S") << "] "
-                      << "+" << hostName << " [" << ipStr << ":" << ntohs(clientAddr.sin_port) << "] new DATAGRAM!\n";
-            std::cout << "C=>S: " << buffer.data() << "\n";
-
-      
-            if (sendto(m_socket, buffer.data(), bytesRecv, 0,
+            
+            if (sendto(m_socket, answer.c_str(), answer.size(), 0,
                        reinterpret_cast<sockaddr*>(&clientAddr), clientAddrSize) == SOCKET_ERROR) {
                 std::cerr << "Sendto failed. Error: " << WSAGetLastError() << "\n";
             }
