@@ -1,0 +1,4 @@
+[2026-10-04 18:21:36] === Client Started ===
+[2026-10-04 18:21:36] Connected to 127.0.0.1:669
+[2026-10-04 18:21:36] Received: Hello, Student! Enter command: load <filename>
+
