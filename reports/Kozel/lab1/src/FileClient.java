@@ -23,7 +23,7 @@ public class FileClient {
             String startTime = LocalDateTime.now().format(formatter);
             log("Connecting starts at " + startTime + " ", logWriter);
             System.out.println("Connected to server. Logging to " + logFileName);
-            System.out.println("Enter the command (example 'load test.txt') and press Enter.");
+            System.out.println("Enter the command (example 'load test.txt').");
 
             BufferedReader consoleIn = new BufferedReader(new InputStreamReader(System.in));
             String userInput;
