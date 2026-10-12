@@ -1,0 +1,20 @@
+окт 12, 2026 2:04:06 PM TaskServer main
+INFO: Сервер запущен и ожидает подключений на порту 666
+окт 12, 2026 2:06:01 PM TaskServer main
+INFO: Новое подключение от: /127.0.0.1
+окт 12, 2026 2:06:24 PM TaskServer$ClientHandler run
+INFO: Отправлено подтверждение: ACK: Checksum=2453, TotalReceived=48
+окт 12, 2026 2:06:37 PM TaskServer$ClientHandler run
+INFO: Сеанс завершен маркером ~#~. Всего символов: 68
+окт 12, 2026 2:49:32 PM TaskServer main
+INFO: Сервер запущен и ожидает подключений на порту 666
+окт 12, 2026 2:49:40 PM TaskServer main
+INFO: Сервер запущен и ожидает подключений на порту 666
+окт 12, 2026 2:50:30 PM TaskServer main
+INFO: Сервер запущен и ожидает подключений на порту 666
+окт 12, 2026 2:50:43 PM TaskServer main
+INFO: Новое подключение от: /127.0.0.1
+окт 12, 2026 2:51:17 PM TaskServer$ClientHandler run
+INFO: Отправлено подтверждение: ACK: Checksum=3249, TotalReceived=48
+окт 12, 2026 2:52:02 PM TaskServer main
+INFO: Сервер запущен и ожидает подключений на порту 666
