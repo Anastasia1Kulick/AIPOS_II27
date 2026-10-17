@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/cmake_install.cmake",
+		"C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/client/cmake_install.cmake",
+		"C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/server/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

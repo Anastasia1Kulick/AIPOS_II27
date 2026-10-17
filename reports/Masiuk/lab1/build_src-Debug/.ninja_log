@@ -1,0 +1,5 @@
+# ninja log v7
+2	5321	8138986077988152	client/CMakeFiles/TCP_client.dir/tcp_client.cpp.obj	e8212f2dedb788f9
+6	5355	8138986078068165	server/CMakeFiles/TCP_server.dir/tcp_server.cpp.obj	a0ff695563576292
+5325	5649	8138986131265361	client/TCP_client.exe	89194d682cc0bb4e
+5356	5649	8138986131508857	server/TCP_server.exe	be55858bc2811d67

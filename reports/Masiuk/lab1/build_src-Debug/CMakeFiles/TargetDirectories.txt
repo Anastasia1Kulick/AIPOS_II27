@@ -1,0 +1,8 @@
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/CMakeFiles/edit_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/client/CMakeFiles/TCP_client.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/client/CMakeFiles/edit_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/client/CMakeFiles/rebuild_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/server/CMakeFiles/TCP_server.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/server/CMakeFiles/edit_cache.dir
+C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab1/build_src-Debug/server/CMakeFiles/rebuild_cache.dir
