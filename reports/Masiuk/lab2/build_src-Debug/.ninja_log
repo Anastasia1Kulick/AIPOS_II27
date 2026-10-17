@@ -1,5 +1,0 @@
-# ninja log v7
-23	1803	8138993106830526	server/CMakeFiles/UDP_server.dir/udp_server.cpp.obj	4128bdeda8b35f02
-2	1832	8138993106772540	client/CMakeFiles/UDP_client.dir/udp_client.cpp.obj	d67d9156ef2820f3
-1817	2034	8138993124772027	server/UDP_server.exe	4a1854da6ce7019f
-1832	2046	8138993124882648	client/UDP_client.exe	8c617668ed2cdf8f

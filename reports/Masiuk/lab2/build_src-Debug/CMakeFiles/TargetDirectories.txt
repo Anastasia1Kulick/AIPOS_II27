@@ -1,8 +1,0 @@
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/CMakeFiles/edit_cache.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/client/CMakeFiles/UDP_client.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/client/CMakeFiles/edit_cache.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/client/CMakeFiles/rebuild_cache.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/server/CMakeFiles/UDP_server.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/server/CMakeFiles/edit_cache.dir
-C:/Users/LordMegatron/Desktop/AIPOS_II27/reports/Masiuk/lab2/build_src-Debug/server/CMakeFiles/rebuild_cache.dir
