@@ -118,18 +118,20 @@
 ![task_4_1](./img/task_4_1.png)
 
 
-![t6](../img/t6.png)
+### Заголовок TCP:
 
-**Разбор полей заголовка TCP (на примере пакета №60):**
+![task_4_2](./img/task_4_2.png)
 
-• **Source Port:** 50651. Данный порт был динамически выделен операционной системой для TCP-клиента.
-• **Destination Port:** 669. Порт, который прослушивает TCP-сервер.
-• **Sequence Number:** Seq=1. Используется для правильной сборки байтового потока.
-• **Acknowledgment Number:** Ack=1. Подтверждает успешный прием предыдущих байт.
-• **Flags:** [PSH, ACK]. ACK — подтверждение получения. PSH — указывает на необходимость немедленной передачи данных приложению.
-• **Длина данных (Len):** 48 байт.
+- `Source Port`: 8080
+- `Destination Port`: 50589
+- `Sequence Number`: 23    (relative sequence number)
+- `Acknowledgment Number`: 94    (relative ack number)
+- `Flags`: 0x011 (FIN, ACK)
+- `Header Length`: 20 bytes (5)
 
-![t6_flow](../img/t6_flows.png)
+### Диаграмма взаимодействия
+
+![task_4_3](./img/task_4_3.png)
 
 ---
 
