@@ -137,18 +137,20 @@
 
 ## Задание 5
 
-![part1](../img/t7_1.png)
+![task_5_1](./img/task_5_1.png)
 
-## User Datagram Protocol
+### Заголовок UDP:
 
-![User Datagram Protocol](../img/t7_2.png)
+![task_5_2](./img/task_5_2.png)
 
-• **Source Port:** 59013.
-• **Destination Port:** 670.
-• **Length:** 11. Общая длина UDP-датаграммы (заголовок + данные).
-• **Checksum:** [Good Checksum: Unverified].
+- `Source Port`: 64985
+- `Destination Port`: 666
+- `Length`: 72
+- `Checksum`: 0xb49c [unverified]
 
-Пояснение по Checksum: Статус «Unverified» возникает из-за особенности работы сетевого стека Windows, который передает пакет на сетевой адаптер, оставляя вычисление контрольной суммы аппаратному обеспечению.
+### Диаграмма взаимодействия
+
+![task_5_3](./img/task_5_3.png)
 
 ---
 
@@ -156,17 +158,18 @@
 
 ![task_6_1](./img/task_6_1.png)
 
+### Заголовок ADR:
+
 ![task_6_2](./img/task_6_2.png)
 
-**Разбор структуры ARP-запроса:**
-• **Opcode:** request (1). Означает, что это ARP-запрос.
-• **Sender MAC address:** ec:91:61:8d:cd:1d (MAC-адрес твоего компьютера).
-• **Sender IP address:** 192.168.100.23.
-• **Target MAC address:** 00:00:00:00:00:00. Поле пустое, так как MAC-адрес искомого узла неизвестен.
-• **Target IP address:** 192.168.100.254. IP-адрес, который мы пытаемся найти.
+- `Opcode`: reply (2)
+- `Sender MAC address`: f2:4b:cf:f3:6b:b9 (f2:4b:cf:f3:6b:b9)
+- `Sender IP address`: 192.168.100.60
+- `Target MAC address`: CloudNetwork_51:bc:59 (10:6f:d9:51:bc:59)
+- `Target IP address`: 192.168.100.30
 
 ---
 
-# Вывод
+# Выводы
 
 В ходе работы были изучены базовые возможности программы Wireshark. Освоены методы захвата трафика, применения фильтров отображения и анализа структуры сетевых протоколов (Ethernet, IP, TCP, UDP, ICMP, ARP).
