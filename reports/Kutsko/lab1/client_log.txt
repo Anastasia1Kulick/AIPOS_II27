@@ -1,0 +1,22 @@
+окт 12, 2026 2:06:01 PM TaskClient connect
+INFO: Успешное подключение к 127.0.0.1:666
+окт 12, 2026 2:06:08 PM TaskClient sendData
+INFO: Отправлено серверу: 1234567890123469876
+окт 12, 2026 2:06:24 PM TaskClient sendData
+INFO: Отправлено серверу: 123456789012345678909734567890987654321234
+окт 12, 2026 2:06:24 PM TaskClient lambda$connect$0
+INFO: Получено от сервера: ACK: Checksum=2453, TotalReceived=48
+окт 12, 2026 2:06:37 PM TaskClient sendData
+INFO: Отправлено серверу: ~#~
+окт 12, 2026 2:06:37 PM TaskClient lambda$connect$0
+INFO: Получено от сервера: SESSION_END: Обнаружена последовательность ~#~. Сеанс завершен.
+окт 12, 2026 2:06:37 PM TaskClient disconnect
+INFO: Соединение разорвано пользователем или сервером.
+окт 12, 2026 2:50:43 PM TaskClient connect
+INFO: Успешное подключение к localhost:666
+окт 12, 2026 2:50:46 PM TaskClient sendData
+INFO: Отправлено серверу: fdfdfdsfdsgfdgfg
+окт 12, 2026 2:51:17 PM TaskClient sendData
+INFO: Отправлено серверу: 12345678901234567890123456789012345678
+окт 12, 2026 2:51:17 PM TaskClient lambda$connect$0
+INFO: Получено от сервера: ACK: Checksum=3249, TotalReceived=48
