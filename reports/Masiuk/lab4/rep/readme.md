@@ -40,7 +40,7 @@
 
 
 Вывод команды ipconfig с одного  ПК:
-![alt text](./example_of_ipconfig)
+![alt text](./example_of_ipconfig.png)
 
 С компьютера PC3 была выполнена проверка связи с PC0 командой ping 192.168.1.2
 
@@ -75,7 +75,7 @@
 
 Проверьте работоспособность сети с использованием ping
 
-![alt text](./ping.txt)
+![alt text](./ping.png)
 
 
 Вывод:
