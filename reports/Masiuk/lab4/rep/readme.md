@@ -27,7 +27,7 @@
     Практическая часть 1
 
     В рабочей области Packet Tracer были добавлены два коммутатора Switch-PT (Switch0, Switch1) и четыре персональных компьютера (PC0–PC3). Устройства соединены кабелями типа Copper Straight-Through / Copper Cross-Over согласно схеме.
-![alt text](./topology.png)  
+![alt text](./top1.png)  
 
 
 
@@ -40,24 +40,24 @@
 
 
 Вывод команды ipconfig с одного  ПК:
-![alt text](./example_of_ipconfig.png)
+![ipconfig test](./ipconfig1.png)
 
 С компьютера PC3 была выполнена проверка связи с PC0 командой ping 192.168.1.2
 
-![alt text](./ping1.png)
+![ping test](./ping1.png)
 
 Работа с CLI коммутатора/маршрутизатора
 
     Был открыт интерфейс командной строки коммутатора через вкладку CLI. Проверен список доступных команд с помощью ?.
 
-![alt text](./CLI.png)
+![CLI](./cli1.png)
 
     Задание для самостоятельной работы
 
 топология по рисунку
 
 
-![alt text](./taptree.png)
+![topology](./top2.png)
 
 мой вариант 7 так что таблица будет выглядеть как  
 
@@ -71,11 +71,11 @@
 |PC5|7.1.1.6|255.255.255.0|
 |PC6|7.1.1.7|255.255.255.0|
 
-![alt text](./ipconfig.png)
+![ipconfig test](./ipconfig2.png)
 
 Проверьте работоспособность сети с использованием ping
 
-![alt text](./ping.png)
+![ping test](./ping2.png)
 
 
 Вывод:
