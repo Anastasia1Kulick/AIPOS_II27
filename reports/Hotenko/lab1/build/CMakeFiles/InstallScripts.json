@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/cmake_install.cmake",
+		"C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/client/cmake_install.cmake",
+		"C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/server/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

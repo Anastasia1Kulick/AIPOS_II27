@@ -1,0 +1,8 @@
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/CMakeFiles/edit_cache.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/CMakeFiles/rebuild_cache.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/client/CMakeFiles/client.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/client/CMakeFiles/edit_cache.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/client/CMakeFiles/rebuild_cache.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/server/CMakeFiles/server.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/server/CMakeFiles/edit_cache.dir
+C:/Users/nagib/OneDrive/Desktop/AIPOS/AIPOS_II27/reports/Hotenko/lab1/build/server/CMakeFiles/rebuild_cache.dir
