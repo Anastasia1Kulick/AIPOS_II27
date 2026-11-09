@@ -76,7 +76,7 @@ public class RawConsole implements Closeable {
         while ((b = in.read()) != -1) {
             // Обработка escape-последовательности PgDn
             if (b == 0x1b) {
-                if (in.read() == '[' && in.read() == '6' && in.read() == '~') {
+                if (in.read() == '[' && in.read() == '5' && in.read() == '~') {
                     // переводим курсор на новую строку и возвращаем накопленный буфер
                     out.write('\n');
                     out.flush();

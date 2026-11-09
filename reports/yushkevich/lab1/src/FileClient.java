@@ -22,7 +22,7 @@ public class FileClient {
     // Порт по умолчанию
     public static final int DEFAULT_PORT = FileServer.PORT;
     // Логгер класса. Записи попадают в server.log и в консоль
-    private static final Logger logger = Logger.getLogger(UDPFileClient.class.getName());
+    private static final Logger logger = Logger.getLogger(FileClient.class.getName());
 
         public static void main (String[] args) throws IOException{
         // Oпределение адреса и порта сервера
