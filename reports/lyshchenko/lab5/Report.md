@@ -1,3 +1,22 @@
+<p align="center">Министерство образования Республики Беларусь</p>
+<p align="center">Учреждение образования</p>
+<p align="center">“Брестский Государственный технический университет”</p>
+<p align="center">Кафедра ИИТ</p>
+<br><br><br><br><br><br><br>
+<p align="center">Лабораторная работа №5</p>
+<p align="center">По дисциплине “Аппаратное и Программное обеспечение сетей”</p>
+<p align="center">Тема: “Организация UDP – сервера/клиента”</p>
+<p align="center">Вариант: 7</p>
+<br><br><br><br><br>
+<p align="right">Выполнил:</p>
+<p align="right">Студент 3 курса</p>
+<p align="right">Группы ИИ-27</p>
+<p align="right">Лыщенко К.В.</p>
+<p align="right">Проверил:</p>
+<p align="right">Кулик А.Д.</p>
+<br><br><br><br><br>
+<p align="center">Брест 2026</p>
+
 ## 1. Схема сети
 ![1](image.png)
 Связи:
