@@ -39,7 +39,7 @@ public class FileServer {
                 }
             });
             logger.addHandler(fileHandler);
-            // Обработчик для записи в консоль
+            // Обработчик для записи в консоль 
             ConsoleHandler console = new ConsoleHandler();
             console.setFormatter(new SimpleFormatter());
             logger.addHandler(console);
