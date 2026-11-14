@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.24)
-
 project(client CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -14,6 +13,5 @@ add_executable(${PROJECT_NAME} client.cpp)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_options(${PROJECT_NAME} PRIVATE -static-libgcc -static-libstdc++ -static)
 endif()
-
 
 target_link_libraries(${PROJECT_NAME} ws2_32)

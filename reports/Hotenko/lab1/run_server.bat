@@ -1,1 +1,3 @@
-.\build\server\server.exe
+@echo off
+.\build\src\server\server.exe
+pause

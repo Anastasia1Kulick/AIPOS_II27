@@ -1,1 +1,3 @@
-.\build\client\client.exe
+@echo off
+.\build\src\client\client.exe
+pause
