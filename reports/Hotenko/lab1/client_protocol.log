@@ -69,3 +69,7 @@ SENT: hello.. | Time: 2026-11-16 15:13:37
 RECEIVED: Session ended by double dot.
  | Time: 2026-11-16 15:13:37
 END CONNECTION: 2026-11-16 15:13:37
+START CONNECTION: 2026-11-16 20:07:07
+SENT: heloo ivan. | Time: 2026-11-16 20:07:34
+RECEIVED: ivan heloo
+ | Time: 2026-11-16 20:07:34
