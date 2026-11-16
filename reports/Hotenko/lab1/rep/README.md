@@ -38,6 +38,8 @@ WinSockи листинг программы реализации TCP-серве�
 
 reports/Hotenkok/lab1/
 ├── rep/
+│   ├── server.png
+│   ├── client.png
 │   └── README.md
 ├── src/
 │   ├── client
