@@ -6,7 +6,7 @@
 <p align="center">Лабораторная работа №1</p>
 <p align="center">По дисциплине “Аппаратное и Программное обеспечение сетей”</p>
 <p align="center">Тема: “Организация TCP – сервера/клиента”</p>
-<p align="center">Вариант: 24</p>
+<p align="center">Вариант: 13</p>
 <br><br><br><br><br>
 <p align="right">Выполнил:</p>
 <p align="right">Студент 3 курса</p>
