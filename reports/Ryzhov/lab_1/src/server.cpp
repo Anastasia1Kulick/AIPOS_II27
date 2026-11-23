@@ -170,9 +170,6 @@
               int raw = ::accept(server.fd, nullptr, nullptr);
               if (raw < 0 && errno == EINTR) continue;
               Descriptor client(raw);
-              timeval timeout {30, 0};
-              ::setsockopt(client.fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-              ::setsockopt(client.fd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
               try {
                   serve(client.fd, directory.fd);
               } catch (const std::exception& error) {
