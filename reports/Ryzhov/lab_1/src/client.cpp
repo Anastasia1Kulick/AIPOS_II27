@@ -54,8 +54,10 @@ std::string escaped(const std::string& text) {
 class Journal {
     std::ofstream file;
 public:
-    explicit Journal(const std::string& name) : file(name, std::ios::app) {
-        if (!file) throw std::runtime_error("Cannot open log: " + name);
+    explicit Journal(const std::string& name)
+        : file(name, std::ios::out | std::ios::app) {
+        if (!file.is_open())
+            throw std::runtime_error("Cannot open log: " + name);
     }
     void write(const std::string& event, const std::string& text) {
         auto now = std::chrono::system_clock::now();
